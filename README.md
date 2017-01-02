@@ -1,8 +1,10 @@
 # DataStructure
+-The purpose of this project is to implement all data structure in C++
 
-# The purpose of this project is to implement all data structure in C++
-# Class implemented as of now
-~ Singly Linked-list
+# Data structure implemented as of now
+- ~~Singly Linked-list~~
+
+# Data structure Going to implement
 - Doubly Linked-list
 - Circular Linked-list
 - Hash table
@@ -10,3 +12,6 @@
 - Stack
 - Queue
 - Array 
+
+# Requirements
+To compile the source code, your compiler must be support at least VS 2015
