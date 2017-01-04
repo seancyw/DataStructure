@@ -19,7 +19,7 @@ void queueTest();
 
 int main()
 {
-	TEST_CASE test = QUEUE;
+	TEST_CASE test = LINKED_LIST;
 
 	switch (test)
 	{
@@ -46,35 +46,9 @@ int main()
 
 void linkedListTest()
 {
-	linkedListStructure::Node<int>* A = new linkedListStructure::Node<int>(10);
-	linkedListStructure::Node<int>* B = new linkedListStructure::Node<int>(20);
-	linkedListStructure::Node<int>* C = new linkedListStructure::Node<int>(30);
-	linkedListStructure::Node<int>* D = new linkedListStructure::Node<int>(40);
-	linkedListStructure::Node<int>* E = new linkedListStructure::Node<int>(50);
-	linkedListStructure::Node<int>* F = new linkedListStructure::Node<int>(60);
-
 	linkedListStructure::LinkedList<int> list;
 
-	list.pushFront(A);
-	list.pushFront(B);
-	list.printList();
-
-	list.pushBack(C);
-	list.pushBack(D);
-	list.printList();
-
-	int value = 0;
-	list.popFront(value);
-	list.printList();
-
-	list.popBack(value);
-	list.printList();
-
-	list.pushFront(F);
-	list.printList();
-
-	list.pushBack(E);
-	list.printList();
+	linkedListStructure::testLinkedList<int>(list, 10, 100, 5, "intList");
 }
 
 void stackTest()
@@ -90,5 +64,5 @@ void queueTest()
 {
 	queueStructure::Queue<int> intQueue;
 
-	queueStructure::testQueue(intQueue, 5, 10, "intQueue");
+	queueStructure::testQueue<int>(intQueue, 5, 10, "intQueue");
 }

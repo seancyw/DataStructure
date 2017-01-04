@@ -27,8 +27,8 @@ namespace linkedListStructure {
 		LinkedList();
 		~LinkedList();
 
-		void pushBack(Node<T>* newNode);
-		void pushFront(Node<T>* newNode);
+		void pushBack(T&);
+		void pushFront(T&);
 
 		bool popBack(T&);
 		bool popFront(T&);
@@ -40,14 +40,18 @@ namespace linkedListStructure {
 
 	private:
 		Node<T>* head;
+		Node<T>* tail;
 		int size;
+
+		Node<T>* getNewNode(const Node<T>&);
 	};
 
 	template<typename T>
 	LinkedList<T>::LinkedList()
+		: head(nullptr)
+		, tail(nullptr)
+		, size(0)
 	{
-		head = new Node<T>();
-		size = 0;
 	}
 
 	template<typename T>
@@ -65,106 +69,95 @@ namespace linkedListStructure {
 	}
 
 	template<typename T>
-	void LinkedList<T>::pushBack(Node<T>* newNode)
+	void LinkedList<T>::pushBack(T& value)
 	{
-		//First Node
-		if (head->next == NULL) {
-			++size;
-			head = newNode;
+		Node<T>* newNode = getNewNode(value);
 
-			return;
+		//if list is empty, assign head and tail point to
+		//new node
+		if (isEmpty()) {
+			head = tail = newNode;
+		}
+		else {
+			//update last previous node
+			tail->next = newNode;
+			tail = newNode;
 		}
 
-		Node<T>* current = head;
-		Node<T>* previous = head;
-
-		while (current) {
-
-			previous = current;
-
-			if (current->next == NULL) {
-				current->next = newNode;
-				++size;
-				return;
-			}
-
-			current = previous->next;
-		}
-
+		++size;
 	}
 
 	template<typename T>
-	void LinkedList<T>::pushFront(Node<T>* newNode)
+	void LinkedList<T>::pushFront(T& value)
 	{
-		//First Node
-		if (head == NULL) {
-			++size;
+		Node<T>* newNode = getNewNode(value);
+
+		//if list is empty, assign head and tail point to
+		//new node
+		if (isEmpty()) {
+			head = tail = newNode;
+		}
+		else {
+			//update first node
+			newNode->next = head;
 			head = newNode;
-			return;
 		}
 
-		newNode->next = head->next;
-		head->next = newNode;
 		++size;
-		return;
 	}
 
 	template<typename T>
 	bool LinkedList<typename T>::popBack(T& value)
 	{
 		//Return false if no node to remove
-		if (head->next == NULL) {
+		if(isEmpty())
 			return false;
+
+		//hold temNode to delete
+		Node<T>* tempNode = tail;
+
+		if(head == tail) {
+			head = tail = nullptr;
+			size = 0;
+		}
+		else {
+			Node<T>* current  = head;
+			
+			//loop to last second node
+			while(current->next != tail)
+				current = current->next;
+
+			//remove last node
+			tail = current;
+			current->next = nullptr;
 		}
 
-		Node<T>* current = head;
-		Node<T>* previous = head;
-		int count = 0;
+		value = tempNode->data;
+		delete tempNode;
 
-		while (current) {
-
-			previous = current;
-
-			if (count == size - 1) {
-				value = current->next->data;
-				delete current->next;
-				current->next = NULL;
-				--size;
-				return true;
-			}
-
-			current = previous->next;
-			count++;
-		}
-
-		return false;
+		return true;
 	}
 
 	template<typename T>
 	bool LinkedList<T>::popFront(T& value)
 	{
 		//Return false if no node to remove
-		if (head->next == NULL) {
+		if(isEmpty())
 			return false;
+
+		if(head == tail) {
+			head = tail = nullptr;
+			size = 0;
+		}
+		else {
+			Node<T>* current = head;
+			
+			head = head->next;
+			value = current->data;
+			delete current;
 		}
 
-		Node<T>* current = head;
-		Node<T>* previous = head;
-
-		while (current) {
-
-			if (current != head) {
-				value = current->next->data;
-				previous->next = current->next;
-				delete current;
-				--size;
-				return true;
-			}
-			previous = current;
-			current = previous->next;
-		}
-
-		return false;
+		return true;
 	}
 
 	template<typename T>
@@ -196,5 +189,45 @@ namespace linkedListStructure {
 		}
 	}
 
+	template<typename T>
+	Node<T>* LinkedList<T>::getNewNode(const Node<T>& value)
+	{
+		return new Node<T>(value);
+	}
+
+	template<typename T>
+	void testLinkedList(LinkedList<T> testList, int iteration, T initialValue, T increment, std::string listType)
+	{
+		cout << "Pushing back...." << endl;
+		for (int iter = 0; iter < iteration; ++iter) {
+			testList.pushBack(initialValue);
+			cout << initialValue << " is pushed to " << listType << ". Current list size: " << testList.getSize() << endl;
+			initialValue += increment;
+		}
+
+		testList.printList();
+
+		cout << "Popping back...." << endl;
+		T value;
+		while (testList.popBack(value))
+			cout << value << " is popped out from " << listType << ". Current list size: " << testList.getSize() << endl;
+
+		testList.printList();
+
+		cout << "Pushing front...." << endl;
+		for (int iter = 0; iter < iteration; ++iter) {
+			initialValue -= increment;
+			testList.pushBack(initialValue);
+			cout << initialValue << " is pushed to " << listType << ". Current list size: " << testList.getSize() << endl;
+		}
+
+		testList.printList();
+
+		cout << "Popping front...." << endl;
+		while (testList.popFront(value))
+			cout << value << " is popped out from " << listType << ". Current list size: " << testList.getSize() << endl;
+
+		testList.printList();
+	}
 }
 #endif

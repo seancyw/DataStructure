@@ -39,9 +39,7 @@ namespace queueStructure {
 	template<typename T>
 	void Queue<T>::enqueue(int data)
 	{
-		linkedListStructure::Node<T>* newNode = new linkedListStructure::Node<T>(data);
-
-		list.pushBack(newNode);
+		list.pushBack(data);
 	}
 
 	template<typename T>
