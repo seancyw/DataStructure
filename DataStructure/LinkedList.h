@@ -27,16 +27,16 @@ namespace linkedListStructure {
 		LinkedList();
 		~LinkedList();
 
-		void pushBack(T&);
-		void pushFront(T&);
+		void pushBack(const T&);
+		void pushFront(const T&);
 
 		bool popBack(T&);
 		bool popFront(T&);
 
-		bool isEmpty();
+		bool isEmpty() const;
 		int  getSize() const;
 
-		void printList();
+		void printList() const;
 
 	private:
 		Node<T>* head;
@@ -69,7 +69,7 @@ namespace linkedListStructure {
 	}
 
 	template<typename T>
-	void LinkedList<T>::pushBack(T& value)
+	void LinkedList<T>::pushBack(const T& value)
 	{
 		Node<T>* newNode = getNewNode(value);
 
@@ -88,7 +88,7 @@ namespace linkedListStructure {
 	}
 
 	template<typename T>
-	void LinkedList<T>::pushFront(T& value)
+	void LinkedList<T>::pushFront(const T& value)
 	{
 		Node<T>* newNode = getNewNode(value);
 
@@ -113,7 +113,7 @@ namespace linkedListStructure {
 		if(isEmpty())
 			return false;
 
-		//hold temNode to delete
+		//hold tempNode to delete
 		Node<T>* tempNode = tail;
 
 		if(head == tail) {
@@ -132,6 +132,9 @@ namespace linkedListStructure {
 			current->next = nullptr;
 		}
 
+		if(size > 0)
+			--size;
+
 		value = tempNode->data;
 		delete tempNode;
 
@@ -146,6 +149,7 @@ namespace linkedListStructure {
 			return false;
 
 		if(head == tail) {
+			value = head->data;
 			head = tail = nullptr;
 			size = 0;
 		}
@@ -157,11 +161,14 @@ namespace linkedListStructure {
 			delete current;
 		}
 
+		if(size > 0)
+			--size;
+
 		return true;
 	}
 
 	template<typename T>
-	bool LinkedList<T>::isEmpty()
+	bool LinkedList<T>::isEmpty() const
 	{
 		return (size == 0);
 	}
@@ -173,8 +180,13 @@ namespace linkedListStructure {
 	}
 
 	template<typename T>
-	void LinkedList<T>::printList()
+	void LinkedList<T>::printList() const
 	{
+		if (isEmpty()) {
+			cout << "List is empty" << endl;
+			return;
+		}
+
 		Node<T>* current = head;
 		Node<T>* previous = head;
 

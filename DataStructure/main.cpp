@@ -10,16 +10,21 @@ using namespace std;
 enum TEST_CASE {
 	LINKED_LIST,
 	STACK,
-	QUEUE
+	STACK_LIST,
+	QUEUE,
+	QUEUE_STACK
 };
 
+//function prototype
 void linkedListTest();
 void stackTest();
+void stackListTest();
 void queueTest();
+void queueStackTest();
 
 int main()
 {
-	TEST_CASE test = LINKED_LIST;
+	TEST_CASE test = QUEUE_STACK;
 
 	switch (test)
 	{
@@ -31,8 +36,16 @@ int main()
 			stackTest();
 			break;
 
+		case STACK_LIST:
+			stackListTest();
+			break;
+
 		case QUEUE:
 			queueTest();
+			break;
+
+		case QUEUE_STACK:
+			queueStackTest();
 			break;
 
 		default:
@@ -60,9 +73,25 @@ void stackTest()
 	stackStructure::testStack<int>(intStack, 100, 50, "intStack");
 }
 
+void stackListTest()
+{
+	stackListStructure::Stack<double> doubleStack;
+	stackListStructure::Stack<int>	  intStack;
+
+	stackListStructure::testStack<double>(doubleStack, 10, 2.0, 0.5, "doubleStack");
+	stackListStructure::testStack<int>(intStack, 20, 100, 50, "intStack");
+}
+
 void queueTest()
 {
 	queueStructure::Queue<int> intQueue;
 
 	queueStructure::testQueue<int>(intQueue, 5, 10, "intQueue");
+}
+
+void queueStackTest()
+{
+	queueOnStackStructure::Queue<int> intQueue;
+
+	queueOnStackStructure::testQueue<int>(intQueue, 5, 10, "intQueue");
 }
