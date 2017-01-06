@@ -33,8 +33,13 @@ namespace linkedListStructure {
 		bool popBack(T&);
 		bool popFront(T&);
 
+		//Use for hash table
+		bool popNode(T&);
+
 		bool isEmpty() const;
 		int  getSize() const;
+
+		bool contains(const T&);
 
 		void printList() const;
 
@@ -177,6 +182,63 @@ namespace linkedListStructure {
 	int  LinkedList<T>::getSize() const
 	{
 		return size;
+	}
+
+	template<typename T>
+	bool LinkedList<T>::contains(const T& value)
+	{
+		if(isEmpty())
+			return false;
+
+		Node<T>* current = head;
+
+		while(current) {
+			
+			if(current->data == value)
+				return true;
+			else
+				current = current->next;
+		}
+
+		return false;
+	}
+
+	template<typename T>
+	//Use for hash table
+	bool LinkedList<T>::popNode(T& value)
+	{
+		if (isEmpty() && !contains(value))
+			return false;
+
+		//if the list only contains one node
+		if (head == tail) {
+			if (head->data == value) {
+				head = tail = nullptr;
+				size = 0;
+				return true;
+			}
+		}
+
+		Node<T>* current = head;
+		Node<T>* tempNode = head;
+
+		while(current) {
+
+			if(current->data == value) {
+				tempNode->next = current->next;
+				delete current;
+				--size;
+				return true;
+			}
+			
+			//assign current node to tempNode
+			tempNode = current;
+
+			//assign next node to current node
+			current = current->next;
+		}
+
+		return false;
 	}
 
 	template<typename T>

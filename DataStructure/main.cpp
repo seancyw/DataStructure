@@ -4,6 +4,7 @@
 #include "Stack.h"
 #include <string>
 #include "Queue.h"
+#include "HashTable.h"
 
 using namespace std;
 
@@ -12,7 +13,8 @@ enum TEST_CASE {
 	STACK,
 	STACK_LIST,
 	QUEUE,
-	QUEUE_STACK
+	QUEUE_STACK,
+	HASH_TABLE
 };
 
 //function prototype
@@ -21,10 +23,11 @@ void stackTest();
 void stackListTest();
 void queueTest();
 void queueStackTest();
+void hashTableTest();
 
 int main()
 {
-	TEST_CASE test = QUEUE_STACK;
+	TEST_CASE test = HASH_TABLE;
 
 	switch (test)
 	{
@@ -46,6 +49,10 @@ int main()
 
 		case QUEUE_STACK:
 			queueStackTest();
+			break;
+
+		case HASH_TABLE:
+			hashTableTest();
 			break;
 
 		default:
@@ -94,4 +101,9 @@ void queueStackTest()
 	queueOnStackStructure::Queue<int> intQueue;
 
 	queueOnStackStructure::testQueue<int>(intQueue, 5, 10, "intQueue");
+}
+
+void hashTableTest()
+{
+	hashTableStructure::testHashTable();
 }
