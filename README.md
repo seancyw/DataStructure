@@ -5,11 +5,11 @@
 - ~~Singly Linked-list~~
 - ~~Stack~~
 - ~~Queue~~
+- ~~Hash table~~
 
 # Data structure Going to implement
 - Doubly Linked-list
 - Circular Linked-list
-- Hash table
 - B-Tree
 - Array 
 - Graph
