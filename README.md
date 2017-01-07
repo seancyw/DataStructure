@@ -6,11 +6,11 @@
 - ~~Stack~~
 - ~~Queue~~
 - ~~Hash table~~
+- ~~Binary-Tree~~
 
 # Data structure Going to implement
 - Doubly Linked-list
 - Circular Linked-list
-- B-Tree
 - Array 
 - Graph
 

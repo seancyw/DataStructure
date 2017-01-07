@@ -5,6 +5,7 @@
 #include <string>
 #include "Queue.h"
 #include "HashTable.h"
+#include "Tree.h"
 
 using namespace std;
 
@@ -14,7 +15,8 @@ enum TEST_CASE {
 	STACK_LIST,
 	QUEUE,
 	QUEUE_STACK,
-	HASH_TABLE
+	HASH_TABLE,
+	BINARY_TREE
 };
 
 //function prototype
@@ -24,10 +26,11 @@ void stackListTest();
 void queueTest();
 void queueStackTest();
 void hashTableTest();
+void binaryTreeTest();
 
 int main()
 {
-	TEST_CASE test = HASH_TABLE;
+	TEST_CASE test = BINARY_TREE;
 
 	switch (test)
 	{
@@ -53,6 +56,10 @@ int main()
 
 		case HASH_TABLE:
 			hashTableTest();
+			break;
+
+		case BINARY_TREE:
+			binaryTreeTest();
 			break;
 
 		default:
@@ -106,4 +113,11 @@ void queueStackTest()
 void hashTableTest()
 {
 	hashTableStructure::testHashTable();
+}
+
+void binaryTreeTest()
+{
+	binaryTreeStructure::Tree<int> intTree;
+
+	binaryTreeStructure::testTree<int>(intTree, 10, 10, 50, "intTree");
 }
