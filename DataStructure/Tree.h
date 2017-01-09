@@ -123,12 +123,12 @@ namespace binaryTreeStructure
 					}
 					//case 2: one child
 					else if ((*node)->left == nullptr) {
-						treeNode<T>* tempNode = root;
+						treeNode<T>* tempNode = (*node);
 						(*node) = (*node)->right;
 						delete tempNode;
 					}
 					else if ((*node)->right == nullptr) {
-						treeNode<T>* tempNode = root;
+						treeNode<T>* tempNode = (*node);
 						(*node) = (*node)->left;
 						delete tempNode;
 					}
@@ -317,6 +317,20 @@ namespace binaryTreeStructure
 			tree.push(initialValue);
 			initialValue += increment;
 		}
+
+		std::cout << "\nPreorder traversal\n";
+		tree.preOrderTraversal();
+
+		std::cout << "\nInorder traversal\n";
+		tree.inOrderTraversal();
+
+		std::cout << "\nPostorder traversal\n";
+		tree.postOrderTraversal();
+
+		std::cout << "\nPopping value " << initialValue - (increment * 1) << std::endl;
+		tree.pop(initialValue - (increment * 1));
+
+		std::cout << "After popping...\n";
 
 		std::cout << "\nPreorder traversal\n";
 		tree.preOrderTraversal();
