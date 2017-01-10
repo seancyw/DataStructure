@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <string>
 #include <queue>
+#include <random>
+#include <ctime>
 
 namespace binaryTreeStructure 
 {
@@ -255,24 +257,26 @@ namespace binaryTreeStructure
 			if (node == nullptr)
 				return;
 
-			std::queue<T*> queue;
+			std::queue<treeNode<T>*> queues;
 
-			queue.push(node);
+			queues.push(node);
 			
 			//while there is at least one discovered node
-			while (!queue.empty()) {
-				treeNode<T>* current = queue.front();
+			while (!queues.empty()) {
+				treeNode<T>* current = queues.front();
 				std::cout << current->data << " ";
 
 				if (current->left != nullptr)
-					queue.push(current->left);
+					queues.push(current->left);
 
 				if (current->right != nullptr)
-					queue.push(current->right);
+					queues.push(current->right);
 
 				//removing the element at front
-				queue.pop();
+				queues.pop();
 			}
+
+			cout << endl;
 		}
 
 
@@ -310,12 +314,20 @@ namespace binaryTreeStructure
 	};
 
 	template<typename T>
-	void testTree(Tree<T> tree, int iteration, T initialValue, T increment, std::string treeType)
+	void testTree(Tree<T> tree, int iteration, std::string treeType)
 	{
+		//initialize random seeds
+		srand((unsigned int)time(NULL));
+
+		//Initialize a empty vector to store value
+		//And randomly pick one value to do popping operation
+		std::vector<T> storage;
+
 		for (int iter = 0; iter < iteration; ++iter) {
-			std::cout << std::fixed << std::setprecision(1) << "Pushing " << initialValue << " into tree" << std::endl;
-			tree.push(initialValue);
-			initialValue += increment;
+			T randomValue = rand() % 100 + 1;
+			std::cout << std::fixed << std::setprecision(1) << "Pushing " << randomValue << " into tree" << std::endl;
+			tree.push(randomValue);
+			storage.push_back(randomValue);
 		}
 
 		std::cout << "\nPreorder traversal\n";
@@ -327,10 +339,18 @@ namespace binaryTreeStructure
 		std::cout << "\nPostorder traversal\n";
 		tree.postOrderTraversal();
 
-		std::cout << "\nPopping value " << initialValue - (increment * 1) << std::endl;
-		tree.pop(initialValue - (increment * 1));
+		std::cout << "\nLevelOrder traversal\n";
+		tree.levelOrderTraversal();
 
-		std::cout << "After popping...\n";
+		T popValue = storage[rand() % storage.size()];
+		std::cout << "\nPopping value " << popValue << std::endl;
+		tree.pop(popValue);
+
+		popValue = storage[rand() % storage.size()];
+		std::cout << "\nPopping value " << popValue << std::endl;
+		tree.pop(popValue);
+
+		std::cout << "\nAfter popping...\n";
 
 		std::cout << "\nPreorder traversal\n";
 		tree.preOrderTraversal();
@@ -340,6 +360,9 @@ namespace binaryTreeStructure
 
 		std::cout << "\nPostorder traversal\n";
 		tree.postOrderTraversal();
+
+		std::cout << "\nLevelOrder traversal\n";
+		tree.levelOrderTraversal();
 	}
 }
 

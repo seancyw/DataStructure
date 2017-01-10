@@ -84,7 +84,7 @@ void stackTest()
 	stackStructure::Stack<int>	  intStack(8);
 
 	stackStructure::testStack<double>(doubleStack, 2.0, 0.5, "doubleStack");
-	stackStructure::testStack<int>(intStack, 100, 50, "intStack");
+	//stackStructure::testStack<int>(intStack, 100, 50, "intStack");
 }
 
 void stackListTest()
@@ -119,5 +119,5 @@ void binaryTreeTest()
 {
 	binaryTreeStructure::Tree<int> intTree;
 
-	binaryTreeStructure::testTree<int>(intTree, 10, 10, 50, "intTree");
+	binaryTreeStructure::testTree<int>(intTree, 10, "intTree");
 }
