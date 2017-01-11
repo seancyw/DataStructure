@@ -42,6 +42,7 @@ namespace binaryTreeStructure
 	
 		~Tree()
 		{
+			destroyTree(&root);
 		}
 
 		void push(const T& data)
@@ -72,6 +73,16 @@ namespace binaryTreeStructure
 		void levelOrderTraversal() const
 		{
 			levelOrderHelper(root);
+		}
+
+		bool isBinarySearchTree()
+		{
+			return isBinarySearchTreeHelper(root, INT_MIN, INT_MAX);
+		}
+
+		bool search(const T& data)
+		{
+			return searchHelper(root, data);
 		}
 
 	private:
@@ -310,6 +321,95 @@ namespace binaryTreeStructure
 				std::cout << node->data << ' '; //process node
 			}
 		}
+		
+		void destroyTree(treeNode<T>** node)
+		{
+			if ((*node) != nullptr) {
+				destroyTree(&(*node)->left);
+				destroyTree(&(*node)->right);
+
+				delete (*node);
+			}
+
+		}
+
+		//Check if the tree is a binary search tree
+		//Method 1: recursively loop to check if each node
+		//left and right subtree is less/greater than the root value
+		//This is very expensive operation
+		bool isBinarySearchTreeHelper(treeNode<T>* node)
+		{
+			//base case to exit recursion
+			if (node == nullptr)
+				return true;
+
+			if (isSubtreeLesser(node->left, node->data) &&
+				isSubtreeGreater(root->right, node->data) &&
+				isBinarySearchTree(root->left) &&
+				isBinarySearchTree(root->right))
+				return true;
+			else
+				return false;
+		}
+		
+		//Method 2: use lower and upper bound value to check if the
+		//node value at left and right subtree is within the range
+		//if yes, they are binary subtree else they're not
+		bool isBinarySearchTreeHelper(treeNode<T>* node, const T& minValue, const T& maxValue)
+		{
+			//base case to exit recursion
+			if (node == nullptr)
+				return true;
+
+			if (node->data > minValue &&
+				node->data < maxValue &&
+				isBinarySearchTreeHelper(root->left, minValue, node->data) &&
+				isBinarySearchTreeHelper(root->right, node->data, maxValue))
+				return true;
+			else
+				return false;
+		}
+
+		bool isSubtreeLesser(treeNode<T>* node, const T& value)
+		{
+			//base case to exit recursion
+			if (node == nullptr)
+				return true;
+
+			if (node->data <= value &&
+				isSubtreeLesser(node->left, value) &&
+				isSubtreeLesser(node->right, value))
+				return true;
+			else
+				return false;
+		}
+
+		bool isSubtreeGreater(treeNode<T>* node, const T& value)
+		{
+			//base case to exit recursion
+			if (node == nullptr)
+				return true;
+
+			if (node->data >= value &&
+				isSubtreeGreater(node->left, value) &&
+				isSubtreeGreater(node->right, value))
+				return true;
+			else
+				return false;
+		}
+
+		bool searchHelper(treeNode<T>* node, const T& value)
+		{
+			if (node == nullptr)
+				return false;
+
+			if (value == node->data)
+				return true;
+			else if (value < node->data)
+				return searchHelper(node->left, value);
+			else
+				return searchHelper(node->right, value);
+		}
 
 	};
 
@@ -330,6 +430,7 @@ namespace binaryTreeStructure
 			storage.push_back(randomValue);
 		}
 
+		//Print tree in different traversal method
 		std::cout << "\nPreorder traversal\n";
 		tree.preOrderTraversal();
 
@@ -342,6 +443,16 @@ namespace binaryTreeStructure
 		std::cout << "\nLevelOrder traversal\n";
 		tree.levelOrderTraversal();
 
+		//Check if this is a binary search tree
+		std::cout << "\nIs this a binary search tree: " << tree.isBinarySearchTree() << std::endl;
+
+		//Test Search function
+		T searchValue = storage[rand() % storage.size()];
+		std::cout << "\nValue " << searchValue << " found: " << tree.search(searchValue);
+
+		std::cout << "\nValue " << searchValue + 10 << " found: " << tree.search(searchValue + 10);
+
+		//Pop value
 		T popValue = storage[rand() % storage.size()];
 		std::cout << "\nPopping value " << popValue << std::endl;
 		tree.pop(popValue);
@@ -352,6 +463,7 @@ namespace binaryTreeStructure
 
 		std::cout << "\nAfter popping...\n";
 
+		//Print tree in different traversal method
 		std::cout << "\nPreorder traversal\n";
 		tree.preOrderTraversal();
 
