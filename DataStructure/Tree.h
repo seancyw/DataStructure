@@ -85,6 +85,31 @@ namespace binaryTreeStructure
 			return searchHelper(root, data);
 		}
 
+		treeNode<T>* searchNode(const T& data)
+		{
+			return searchNodeHelper(root, data);
+		}
+
+		T getSuccessor(const T& data)
+		{
+			return getSuccessorHelper(root, data);
+		}
+
+		treeNode<T>* getSuccessorNode(const T& data)
+		{
+			return getSuccessorNodeHelper(root, data);
+		}
+
+		T getPredecessor(const T& data)
+		{
+			return getPredecessorHelper(root, data);
+		}
+
+		treeNode<T>* getPredecessorNode(const T& data)
+		{
+			return getPredecessorNodeHelper(root, data);
+		}
+
 	private:
 		treeNode<T>* root;
 
@@ -411,6 +436,155 @@ namespace binaryTreeStructure
 				return searchHelper(node->right, value);
 		}
 
+		treeNode<T>* searchNodeHelper(treeNode<T>* node, const T& value)
+		{
+			if (node == nullptr)
+				return node;
+
+			if (value == node->data)
+				return node;
+			else if (value < node->data)
+				return searchNodeHelper(node->left, value);
+			else
+				return searchNodeHelper(node->right, value);
+		}
+
+		//Function to find successor in a Binary search tree
+		T getSuccessorHelper(treeNode<T>* node, T data)
+		{
+			//Search the node - O(h) h: height of tree
+			treeNode<T>* current = searchNode(data);
+
+			if (current == nullptr)
+				return current->data;
+
+			//Case 1: node has right subtree  - O(h) h: height of tree
+			if (current->right != nullptr) {
+				return findMinimumIterative(current->right);
+			}
+			//Case 2: no right subtree - O(h) h: height of tree
+			else {
+				treeNode<T>* successor = nullptr;
+				treeNode<T>* ancestor = node;	//traverse from root node
+
+				while (ancestor != current) {
+					if (current->data < ancestor->data) {
+						successor = ancestor;
+						ancestor = ancestor->left;
+					}
+					else {
+						ancestor = ancestor->right;
+					}
+				}
+
+				return successor->data;
+			}
+		}
+
+		//Function to find successor in a Binary search tree
+		treeNode<T>* getSuccessorNodeHelper(treeNode<T>* node, T data)
+		{
+			//Search the node - O(h) h: height of tree
+			treeNode<T>* current = search(data);
+		
+			if (current == nullptr)
+				return null;
+		
+			//Case 1: node has right subtree  - O(h) h: height of tree
+			//Go deep to the leftmost node in right subtree
+			//find minimum in right subtree
+			if (current->right != nullptr) {
+				return findMinimumNode(current->right);
+			}
+			//Case 2: no right subtree - O(h) h: height of tree
+			//Go to the nearest ancestor for which given node would
+			//be in the left subtree
+			else {
+				treeNode<T>* successor = nullptr;
+				treeNode<T>* ancestor = node;	//traverse from root node
+		
+				while (ancestor != current) {
+					if (current->data < ancestor->data) {
+						successor = ancestor;
+						ancestor = ancestor->left;
+					}
+					else {
+						ancestor = ancestor->right;
+					}
+				}
+		
+				return successor;
+			}
+		}
+
+		T getPredecessorHelper(treeNode<T>* node, const T& data)
+		{
+			treeNode<T>* current = searchNode(data);
+
+			if (current == nullptr)
+				return current->data;
+
+			//Case 1: node has left subtree
+			//Go deep to the rightmost node in left subtree
+			//find maximum in right subtree
+			if (current->left != nullptr) {
+				return findMaximumIterative(current->left);
+			}
+			//Case 2: no left subtree - O(h) h: height of tree
+			//Go to the nearest ancestor for which given node would
+			//be in the right subtree
+			else {
+				treeNode<T>* predecessor = nullptr;
+				treeNode<T>* ancestor = node;	//traverse from root node
+
+				while (ancestor != current) {
+					if (current->data > ancestor->data) {
+						predecessor = ancestor;
+						ancestor = ancestor->right;
+					}
+					else {
+						ancestor = ancestor->left;
+					}
+				}
+
+				return predecessor->data;
+			}
+
+		}
+
+		treeNode<T>* getPredecessorNode(treeNode<T>* node, const T& data)
+		{
+			treeNode<T>* current = searchNode(data);
+
+			if (current == nullptr)
+				return current;
+
+			//Case 1: node has left subtree
+			//Go deep to the rightmost node in left subtree
+			//find maximum in right subtree
+			if (current->left != nullptr) {
+				return findMaximumIterative(current->left);
+			}
+			//Case 2: no left subtree - O(h) h: height of tree
+			//Go to the nearest ancestor for which given node would
+			//be in the right subtree
+			else {
+				treeNode<T>* predecessor = nullptr;
+				treeNode<T>* ancestor = node;	//traverse from root node
+
+				while (ancestor != current) {
+					if (current->data > ancestor->data) {
+						predecessor = ancestor;
+						ancestor = ancestor->right;
+					}
+					else {
+						ancestor = ancestor->left;
+					}
+				}
+
+				return predecessor;
+			}
+		}
 	};
 
 	template<typename T>
@@ -450,7 +624,15 @@ namespace binaryTreeStructure
 		T searchValue = storage[rand() % storage.size()];
 		std::cout << "\nValue " << searchValue << " found: " << tree.search(searchValue);
 
-		std::cout << "\nValue " << searchValue + 10 << " found: " << tree.search(searchValue + 10);
+		std::cout << "\nValue " << searchValue + 10 << " found: " << tree.search(searchValue + 10) << " \n";
+
+		//Test getSuccessor function
+		searchValue = storage[rand() % storage.size()];
+		std::cout << "\nSuccessor for value " << searchValue << " is : " << tree.getSuccessor(searchValue) << " \n";
+		
+		//Test getPredecessor function
+		searchValue = storage[rand() % storage.size()];
+		std::cout << "\nPredecessor for value " << searchValue << " is : " << tree.getPredecessor(searchValue) << " \n";
 
 		//Pop value
 		T popValue = storage[rand() % storage.size()];
@@ -458,10 +640,10 @@ namespace binaryTreeStructure
 		tree.pop(popValue);
 
 		popValue = storage[rand() % storage.size()];
-		std::cout << "\nPopping value " << popValue << std::endl;
+		std::cout << "Popping value " << popValue << std::endl;
 		tree.pop(popValue);
 
-		std::cout << "\nAfter popping...\n";
+		std::cout << "\nAfter popping...";
 
 		//Print tree in different traversal method
 		std::cout << "\nPreorder traversal\n";
