@@ -14,74 +14,50 @@ namespace queueStructure {
 	{
 	public:
 		//default constructor
-		Queue();
+		Queue()
+		{
+		}
 
 		//destructor
-		~Queue();
+		~Queue()
+		{
+		}
 
 		//enqueue data to the queue
-		void enqueue(int data);
+		void enqueue(const int& data)
+		{
+			list.pushBack(data);
+		}
 
 		//dequeue data from the queue
-		bool dequeue(T& value);
+		bool dequeue(T& value)
+		{
+			if (!list.isEmpty()) {
+
+				if (list.popFront(value))
+					return true;
+				else
+					return false;
+			}
+
+			return false;
+		}
 
 		//check if the queue empty
-		bool isEmpty();
+		bool isEmpty()
+		{
+			return list.isEmpty();
+		}
 
 		//print the data contains at the queue
-		void printQueue();
+		void printQueue() const
+		{
+			list.printList();
+		}
 
 	private:
 		linkedListStructure::LinkedList<T> list; //composed Linked-List object
 	};
-
-	template<typename T>
-	//default constructor
-	Queue<T>::Queue()
-	{
-	}
-
-	//destructor
-	template<typename T>
-	Queue<T>::~Queue()
-	{
-	}
-
-	//enqueue data to the queue
-	template<typename T>
-	void Queue<T>::enqueue(int data)
-	{
-		list.pushBack(data);
-	}
-
-	//dequeue data from the queue
-	template<typename T>
-	bool Queue<T>::dequeue(T& value)
-	{
-		if (!list.isEmpty()) {
-			
-			if (list.popFront(value))
-				return true;
-			else
-				return false;
-		}
-
-		return false;
-	}
-
-	//check if the queue empty
-	template<typename T>
-	bool Queue<T>::isEmpty()
-	{
-		return list.isEmpty();
-	}
-
-	//print the data contains at the queue
-	template<typename T>
-	void Queue<T>::printQueue()
-	{
-		list.printList();
-	}
 
 	//driver function to test functionality of Queue class
 	template<typename T>
@@ -112,69 +88,52 @@ namespace queueOnStackStructure {
 	class Queue
 	{
 	public:
-		Queue();
-		~Queue();
+		Queue()
+		{
+		}
 
-		void enqueue(int data);
+		~Queue()
+		{
+		}
 
-		bool dequeue(T& value);
+		void enqueue(const int& data)
+		{
+			inStack.push(data);
+		}
 
-		bool isEmpty();
+		bool dequeue(T& value)
+		{
+			if (outStack.isEmpty()) {
 
-		void printQueue();
+				T tempValue;
+				while (inStack.pop(tempValue))
+					outStack.push(tempValue);
+			}
+
+			if (outStack.pop(value))
+				return true;
+
+			return false;
+		}
+
+		bool isEmpty()
+		{
+			return inStack.isEmpty() && outStack.isEmpty();
+		}
+
+		void printQueue() const
+		{
+			if (!outStack.isEmpty())
+				outStack.printStack();
+
+
+			inStack.printStack();
+		}
 
 	private:
 		stackListCompositionStructure::Stack<T> inStack;
 		stackListCompositionStructure::Stack<T> outStack;
 	};
-
-	template<typename T>
-	Queue<T>::Queue()
-	{
-	}
-
-	template<typename T>
-	Queue<T>::~Queue()
-	{
-	}
-
-	template<typename T>
-	void Queue<T>::enqueue(int data)
-	{
-		inStack.push(data);
-	}
-
-	template<typename T>
-	bool Queue<T>::dequeue(T& value)
-	{
-		if(outStack.isEmpty()) {
-
-			T tempValue;
-			while(inStack.pop(tempValue))
-				outStack.push(tempValue);
-		}
-
-		if(outStack.pop(value))
-			return true;
-
-		return false;
-	}
-
-	template<typename T>
-	bool Queue<T>::isEmpty()
-	{
-		return inStack.isEmpty() && outStack.isEmpty();
-	}
-
-	template<typename T>
-	void Queue<T>::printQueue()
-	{
-		if (!outStack.isEmpty())
-			outStack.printStack();
-
-
-		inStack.printStack();
-	}
 
 	template<typename T>
 	void testQueue(Queue<T> queue, T initialValue, T increment, std::string queueType)
