@@ -6,6 +6,7 @@
 #include "Queue.h"
 #include "HashTable.h"
 #include "Tree.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -16,7 +17,8 @@ enum TEST_CASE {
 	QUEUE,
 	QUEUE_STACK,
 	HASH_TABLE,
-	BINARY_TREE
+	BINARY_TREE,
+	GRAPH
 };
 
 //function prototype
@@ -27,10 +29,11 @@ void queueTest();
 void queueStackTest();
 void hashTableTest();
 void binaryTreeTest();
+void graphTest();
 
 int main()
 {
-	TEST_CASE test = BINARY_TREE;
+	TEST_CASE test = GRAPH;
 
 	switch (test)
 	{
@@ -60,6 +63,10 @@ int main()
 
 		case BINARY_TREE:
 			binaryTreeTest();
+			break;
+
+		case GRAPH:
+			graphTest();
 			break;
 
 		default:
@@ -120,4 +127,9 @@ void binaryTreeTest()
 	binaryTreeStructure::Tree<int> intTree;
 
 	binaryTreeStructure::testTree<int>(intTree, 10, "intTree");
+}
+
+void graphTest()
+{
+	graphStructure::testGraph();
 }
