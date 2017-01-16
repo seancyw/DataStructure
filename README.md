@@ -3,16 +3,19 @@
 
 # Data structure implemented as of now
 - ~~Singly Linked-list~~
+- ~~Doubly Linked-list~~
 - ~~Stack~~
 - ~~Queue~~
 - ~~Hash table~~
 - ~~Binary-Tree~~
+- **Graph (Partially)
 
 # Data structure Going to implement
-- Doubly Linked-list
 - Circular Linked-list
 - Array 
-- Graph
+- Heap
+- AVL Tree
+- Red Black Tree
 
 # Requirements
 To compile the source code, your compiler must be support at least VS 2015
