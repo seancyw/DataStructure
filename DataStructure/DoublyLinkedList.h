@@ -9,19 +9,19 @@ namespace doublyLinkedListStructure {
 		//Initialize structure variables
 		Node() : data(0)
 			, next(nullptr)
-			, previous(nullptr)
+			, past(nullptr)
 		{
 		}
 
 		Node(T value) : data(value)
 			, next(nullptr)
-			, previous(nullptr)
+			, past(nullptr)
 		{
 		}
 
 		T data;
 		Node* next;
-		Node* previous;
+		Node* past;
 	};
 
 	template<typename T>
@@ -59,7 +59,7 @@ namespace doublyLinkedListStructure {
 			}
 			else {
 				//update last previous node
-				tail->previous = tail;
+				newNode->past = tail;
 				tail->next = newNode;
 				tail = newNode;
 			}
@@ -78,8 +78,8 @@ namespace doublyLinkedListStructure {
 			}
 			else {
 				//update first node
-				newNode->previous = tail;
-				newNode->next     = head;
+				newNode->next = head;
+				head->past = newNode;
 				head = newNode;
 			}
 
@@ -135,6 +135,7 @@ namespace doublyLinkedListStructure {
 				Node<T>* current = head;
 
 				head = head->next;
+				head->past = nullptr;
 				value = current->data;
 				delete current;
 			}
@@ -218,16 +219,20 @@ namespace doublyLinkedListStructure {
 			}
 
 			Node<T>* current = head;
-			Node<T>* previous = head;
-
 			std::cout << "LinkedList contains " << getSize() << " item \n";
 
 			int count = 0;
+			std::cout << "Traverse from head to tail.\n";
 			while (current) {
-				previous = current;
+				std::cout << "Position " << count++ << "\t" << current->data << "\n";
+				current = current->next;
+			}
 
-				std::cout << "Position " << count++ << "\t" << previous->data << "\n";
-				current = previous->next;
+			current = tail;
+			std::cout << "Traverse from tail to head.\n";
+			while (current) {
+				std::cout << "Position " << count-- << "\t" << current->data << "\n";
+				current = current->past;
 			}
 		}
 

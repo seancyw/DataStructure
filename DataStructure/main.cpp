@@ -7,11 +7,13 @@
 #include "HashTable.h"
 #include "Tree.h"
 #include "Graph.h"
+#include "DoublyLinkedList.h"
 
 using namespace std;
 
 enum TEST_CASE {
 	LINKED_LIST,
+	DOUBLY_LINKED_LIST,
 	STACK,
 	STACK_LIST,
 	QUEUE,
@@ -23,6 +25,7 @@ enum TEST_CASE {
 
 //function prototype
 void linkedListTest();
+void doublyLinkedListTest();
 void stackTest();
 void stackListTest();
 void queueTest();
@@ -33,12 +36,16 @@ void graphTest();
 
 int main()
 {
-	TEST_CASE test = GRAPH;
+	TEST_CASE test = DOUBLY_LINKED_LIST;
 
 	switch (test)
 	{
 		case LINKED_LIST:
 			linkedListTest();
+			break;
+
+		case DOUBLY_LINKED_LIST:
+			doublyLinkedListTest();
 			break;
 
 		case STACK:
@@ -83,6 +90,13 @@ void linkedListTest()
 	linkedListStructure::LinkedList<int> list;
 
 	linkedListStructure::testLinkedList<int>(list, 10, 100, 5, "intList");
+}
+
+void doublyLinkedListTest()
+{
+	doublyLinkedListStructure::LinkedList<int> list;
+
+	doublyLinkedListStructure::testLinkedList<int>(list, 10, 100, 5, "intList");
 }
 
 void stackTest()
