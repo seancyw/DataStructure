@@ -8,6 +8,7 @@
 #include "Tree.h"
 #include "Graph.h"
 #include "DoublyLinkedList.h"
+#include "Heap.h"
 
 using namespace std;
 
@@ -20,7 +21,8 @@ enum TEST_CASE {
 	QUEUE_STACK,
 	HASH_TABLE,
 	BINARY_TREE,
-	GRAPH
+	GRAPH,
+	HEAP
 };
 
 //function prototype
@@ -33,10 +35,11 @@ void queueStackTest();
 void hashTableTest();
 void binaryTreeTest();
 void graphTest();
+void heapTest();
 
 int main()
 {
-	TEST_CASE test = DOUBLY_LINKED_LIST;
+	TEST_CASE test = HEAP;
 
 	switch (test)
 	{
@@ -74,6 +77,10 @@ int main()
 
 		case GRAPH:
 			graphTest();
+			break;
+
+		case HEAP:
+			heapTest();
 			break;
 
 		default:
@@ -146,4 +153,15 @@ void binaryTreeTest()
 void graphTest()
 {
 	graphStructure::testGraph();
+}
+
+void heapTest()
+{
+	heapStructure::Heap<int> intHeap(true);
+
+	heapStructure::testHeap(intHeap, true, "INT MAX Heap");
+
+	heapStructure::Heap<double> doubleHeap(false);
+
+	heapStructure::testHeap(doubleHeap, false, "DOUBLE MIN Heap");
 }
