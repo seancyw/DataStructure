@@ -35,6 +35,11 @@ namespace heapStructure
 
 		void push(const T& value)
 		{
+			if (contains(value)) {
+				std::cout << "Duplicate value " << value << " cannot push onto heap.\n";
+				return;
+			}
+
 			_heap.push_back(value);
 
 			bubbleUp(getHeapSize() - 1);
@@ -72,16 +77,22 @@ namespace heapStructure
 
 					//Swap the current value with the max between two value
 					if (_heap[index] < max(_heap[getLeftChildIndex(index)], _heap[getRightChildIndex(index)])) {
-						if(_heap[getLeftChildIndex(index)] > _heap[getRightChildIndex(index)])
+
+						if (_heap[getLeftChildIndex(index)] > _heap[getRightChildIndex(index)]) {
 							std::swap(_heap[index], _heap[getLeftChildIndex(index)]);
-						else
+
+							//go to the next level
+							bubbleDown(getLeftChildIndex(index));
+						}
+						else {
 							std::swap(_heap[index], _heap[getRightChildIndex(index)]);
 
-						//go to the next level
-						size_t nextIndex = _heap[getLeftChildIndex(index)] > _heap[getRightChildIndex(index)] ? getLeftChildIndex(index) : getRightChildIndex(index);
-						bubbleDown( nextIndex );
+							//go to the next level
+							bubbleDown(getRightChildIndex(index));
+						}
 					}
 
+					return;
 				}
 				else if (_heap.size() - 1 >= getLeftChildIndex(index)) {
 					//Swap the current value with the max value
@@ -91,6 +102,8 @@ namespace heapStructure
 						//go to the next level
 						bubbleDown(getLeftChildIndex(index));
 					}
+
+					return;
 				}
 				else if (_heap.size() - 1 >= getRightChildIndex(index)) {
 					//Swap the current value with the max value
@@ -100,6 +113,8 @@ namespace heapStructure
 						//go to the next level
 						bubbleDown(getRightChildIndex(index));
 					}
+
+					return;
 				}
 			}
 			else {
@@ -109,16 +124,19 @@ namespace heapStructure
 
 					//Swap the current value with the max between two value
 					if (_heap[index] > min(_heap[getLeftChildIndex(index)], _heap[getRightChildIndex(index)])) {
-						if(_heap[getLeftChildIndex(index)] < _heap[getRightChildIndex(index)])
+						if (_heap[getLeftChildIndex(index)] < _heap[getRightChildIndex(index)]) {
 							std::swap(_heap[index], _heap[getLeftChildIndex(index)]);
-						else
+							
+							//go to the next level
+							bubbleDown(getLeftChildIndex(index));
+						}
+						else {
 							std::swap(_heap[index], _heap[getRightChildIndex(index)]);
 
-						//go to the next level
-						size_t nextIndex = _heap[getLeftChildIndex(index)] < _heap[getRightChildIndex(index)] ? getLeftChildIndex(index) : getRightChildIndex(index);
-						bubbleDown(nextIndex);
+							//go to the next level
+							bubbleDown(getRightChildIndex(index));
+						}
 					}
-
 				}
 				else if (_heap.size() - 1 >= getLeftChildIndex(index)) {
 					//Swap the current value with the max value
@@ -128,6 +146,8 @@ namespace heapStructure
 						//go to the next level
 						bubbleDown(getLeftChildIndex(index));
 					}
+
+					return;
 				}
 				else if (_heap.size() - 1 >= getRightChildIndex(index)) {
 					//Swap the current value with the max value
@@ -137,9 +157,10 @@ namespace heapStructure
 						//go to the next level
 						bubbleDown(getRightChildIndex(index));
 					}
+
+					return;
 				}
 			}
-			
 		}
 
 		//Parent n have child of 2n+1 and 2n+2
@@ -147,20 +168,26 @@ namespace heapStructure
 		void bubbleUp(size_t index)
 		{
 			//return if less than 2 elements on the heap
-			if (_heap.size() < 2 || index == 0)
+			if (index == 0)
 				return;
 
 			if (_maxHeap) {
 				//if inserted element is greater than its parent 
 				//node, swap the elements with its parents
-				if (_heap[index] > _heap[getParentIndex(index)])
+				if (_heap[index] > _heap[getParentIndex(index)]) {
 					std::swap(_heap[index], _heap[getParentIndex(index)]);
+
+					bubbleUp(getParentIndex(index));
+				}
 			}
 			else {
 				//if inserted element is smaller than its parent 
 				//node, swap the elements with its parents
-				if (_heap[index] < _heap[getParentIndex(index)])
+				if (_heap[index] < _heap[getParentIndex(index)]) {
 					std::swap(_heap[index], _heap[getParentIndex(index)]);
+
+					bubbleUp(getParentIndex(index));
+				}
 			}
 		}
 
@@ -205,6 +232,11 @@ namespace heapStructure
 		size_t getHeapSize() const
 		{
 			return _heap.size();
+		}
+
+		bool contains(const T& value)
+		{
+			return std::any_of(_heap.begin(), _heap.end(), [value](T& data) { return data == value; });
 		}
 	};
 

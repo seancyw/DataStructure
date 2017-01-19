@@ -8,12 +8,12 @@
 - ~~Queue~~
 - ~~Hash table~~
 - ~~Binary-Tree~~
+- ~~Heap~~
 - **Graph (Partially)
 
 # Data structure Going to implement
 - Circular Linked-list
 - Array 
-- Heap
 - AVL Tree
 - Red Black Tree
 
