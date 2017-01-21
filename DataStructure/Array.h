@@ -10,6 +10,20 @@ namespace arrayStructure
 	template<typename T>
 	class Array
 	{
+		friend std::ostream &operator<<(std::ostream & output, const Array & outArray)
+		{
+			std::for_each(outArray, outArray + outArray.getSize(), [&](const T& value) { output << value; });
+
+			return output;
+		}
+
+		friend std::istream &operator>>(std::istream & input, Array & inArray)
+		{
+			std::for_each(inArray, inArray + inArray.getSize(), [&](const T& value) { input >> value; });
+
+			return input;
+		}
+
 	public:
 		Array()
 		{
@@ -122,13 +136,71 @@ namespace arrayStructure
 			if (index > getSize())
 				throw std::exception("unable to get value! index is out of range!");
 
-			return arrayList[index] = value;
+			return arrayList[index];
+		}
+
+		void printArray()
+		{
+			std::cout << "Array contains " << getSize() << " elements:";
+			std::for_each(arrayList, arrayList + size, [](const T& value) { std::cout << value << " "; });
+			std::cout << std::endl;
 		}
 
 	private:
 		T* arrayList;
 		size_t size;
 	};
+
+	template<typename T>
+	void testArray(Array<T> arrayList, T startValue, const size_t iteration, const T increment)
+	{
+		//Set function test
+		for (size_t i = 0; i < iteration / 2; ++i) {
+			arrayList.set(i, startValue);
+			startValue += increment;
+		}
+
+		//Subscript operator test
+		for (size_t i = iteration / 2; i < iteration; ++i) {
+			arrayList[i] = startValue;
+			startValue += increment;
+		}
+
+		//Print array
+		arrayList.printArray();
+
+		//Get function test
+		std::cout << "\nValue at position " << iteration / 2 << " is " << arrayList.get(iteration / 2);
+		
+		//Subscript operator test
+		std::cout << "\nValue at position " << iteration / 4 << " is " << arrayList[iteration / 4];
+
+		//Test copy constructor
+		Array<T> copyArray = arrayList;
+
+		std::cout << "\n\nCopy from original array to new array\n";
+		std::cout << "\nOriginal array:\n";
+		arrayList.printArray();
+
+		std::cout << "\nCopy array:\n";
+		copyArray.printArray();
+
+
+		//Test equality
+		std::cout << "\nCopy array is same as original array: " << bool( copyArray == arrayList );
+
+		//Test inequality
+		copyArray[iteration / 2] = copyArray[iteration / 2] + 1;
+		std::cout << "\n\nOriginal array:\n";
+		arrayList.printArray();
+		
+		std::cout << "\nCopy array:\n";
+		copyArray.printArray();
+
+		std::cout << "\nCopy array is different from original array: " << bool( copyArray != arrayList );
+
+		std::cout << "\n\n";
+	}
 }
 
 #endif
