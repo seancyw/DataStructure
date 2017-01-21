@@ -9,11 +9,11 @@
 - ~~Hash table~~
 - ~~Binary-Tree~~
 - ~~Heap~~
+- ~~Array~~
 - **Graph (Partially)
 
 # Data structure Going to implement
 - Circular Linked-list
-- Array 
 - AVL Tree
 - Red Black Tree
 
