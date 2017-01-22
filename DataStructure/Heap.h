@@ -191,6 +191,47 @@ namespace heapStructure
 			}
 		}
 
+		void makeHeap(std::vector<T>& data, bool maxHeap)
+		{
+			_maxHeap = maxHeap;
+
+			_heap.clear();
+
+			if (maxHeap) {
+				std::cout << "\nBuilding maximum heap:\n";
+
+				for (size_t i = 0; i < data.size(); ++i)
+					push(data[i]);
+			}
+			else {
+				std::cout << "\nBuilding minimum heap:\n";
+
+				for (size_t i = data.size() - 1; i > 0; --i)
+					push(data[i]);
+			}
+		}
+
+		void makeHeap(bool maxHeap)
+		{
+			_maxHeap = maxHeap;
+
+			std::vector<T> tempHeap = _heap;
+			_heap.clear();
+
+			if (maxHeap) {
+				std::cout << "\nBuilding maximum heap:\n";
+	
+				for (size_t i = 0; i < tempHeap.size(); ++i)
+					push(tempHeap[i]);
+			}
+			else {
+				std::cout << "\nBuilding minimum heap:\n";
+
+				for (size_t i = tempHeap.size() - 1; i > 0; --i)
+					push(tempHeap[i]);
+			}
+		}
+
 		void printHeap()
 		{
 			if(_maxHeap)
@@ -208,6 +249,11 @@ namespace heapStructure
 		bool isEmpty() const
 		{
 			return getHeapSize() == 0;
+		}
+
+		bool getHeapType() const
+		{
+			return _maxHeap;
 		}
 
 	private:
@@ -265,6 +311,14 @@ namespace heapStructure
 
 		//print heap;
 		heap.printHeap();
+
+		//test make heap function
+		heap.makeHeap( !heap.getHeapType() );
+
+		//print heap;
+		heap.printHeap();
+
+		std::cout << "\n---------\n";
 	}
 }
 
